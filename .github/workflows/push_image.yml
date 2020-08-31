@@ -21,17 +21,17 @@ jobs:
           with:
              azcliversion: 2.9.1
              inlineScript: |
-                az deployment group create --resource-group ignitedemo --template-file .cloud/.azure/deploy.json \
+                az deployment group create --resource-group azuretriggeringh --template-file .cloud/.azure/deploy.json \
                 --parameters .cloud/.azure/deploy.params.json patToken=${{secrets.PATTOKEN}} \
-                containerRegistryName=igniteacr1 repo_name=$GITHUB_REPOSITORY
+                containerRegistryName=azuretriggeracr repo_name=$GITHUB_REPOSITORY
         
         - name: 'Build and push image'
           uses: azure/docker-login@v1
           with:
-            login-server: igniteacr1.azurecr.io 
+            login-server: azuretriggeracr.azurecr.io 
             username: ${{ secrets.USERNAME }}
             password: ${{ secrets.REGISTRY_PASSWORD }} 
         - run: |
             docker pull houssemdocker/angular-app:latest
-            docker tag houssemdocker/angular-app:latest igniteacr1.azurecr.io/my-app6:v1
-            docker push igniteacr1.azurecr.io/my-app6:v1 
+            docker tag houssemdocker/angular-app:latest azuretriggeracr.azurecr.io/my-app6:v1
+            docker push azuretriggeracr.azurecr.io/my-app6:v1 
