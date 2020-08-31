@@ -12,9 +12,9 @@ jobs:
     - name: Check variables
       run: |
           echo "::set-env name=filter::v1"
-          echo "::set-env name=repo_name::igniteacr1.azurecr.io/${{ github.event.client_payload.data.target.repository }}"
+          echo "::set-env name=repo_name::azuretriggeracr.azurecr.io/${{ github.event.client_payload.data.target.repository }}"
           echo "::set-env name=repo_version::${{ github.event.client_payload.data.target.tag }}"
-          echo "::set-env name=image_name::igniteacr1.azurecr.io/${{ github.event.client_payload.data.target.repository }}:${{ github.event.client_payload.data.target.tag }}"
+          echo "::set-env name=image_name::azuretriggeracr.azurecr.io/${{ github.event.client_payload.data.target.repository }}:${{ github.event.client_payload.data.target.tag }}"
           
     - name: Check tag filter
       run: |
@@ -24,12 +24,12 @@ jobs:
       uses: azure/aks-set-context@v1
       with:
         creds: '${{ secrets.AZURE_CREDENTIALS }}' 
-        cluster-name: clust
-        resource-group: ignitedemo
+        cluster-name: azuretriggeraks
+        resource-group: azuretriggeringh
     
     - uses: Azure/k8s-create-secret@v1
       with:
-        container-registry-url: igniteacr1.azurecr.io
+        container-registry-url: azuretriggeracr.azurecr.io
         container-registry-username: ${{ secrets.USERNAME }}
         container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
         secret-name: demo-k8s-secret
