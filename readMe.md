@@ -1,9 +1,6 @@
 # Template Workflow to deploy a ACR image to AKS using event grid
 
-The workflows in this repo show how to deploy any image from azure container registery to azure kubernetes cluster using event grid subscription to container registery.
-Based on the events trigerred the corresponding workflow will be trigerred.
-- Workflow 1- subscribe to ACR -->create image and push to ACR which will trigger image-push event in event grid.
-- Workflow 2- the image pushed to ACR is deployed to AKS. 
+The workflows in this repo show how to auto deploy any new images in ACR ( Azure Container Registery ) to AKS ( Azure Kubernetes Cluster). 
 
 # Getting started
 
@@ -18,7 +15,7 @@ The following prerequisites are required to make this repository work:
 
 ### 2. Create repository
 
-To get started with ML Ops, simply create a new repo based off this template, by clicking on the green "Use this template" button:
+To get started with Azure Triggers in GH, simply create a new repo based off this template, by clicking on the green "Use this template" button:
 
 <p align="center">
   <img src="https://help.github.com/assets/images/help/repository/use-this-template-button.png" alt="GitHub Template repository" width="700"/>
@@ -63,12 +60,14 @@ Please follow [this link](https://help.github.com/en/actions/configuring-and-man
 
 #### Credentials required to push/pull to azure container registry
 Following secrets are credentials required to access azure container registry.
+- REGISTRY_USERNAME
 - REGISTRY_PASSWORD
-- USERNAME
+
 
 These can be set using the azure credentials generated above-
-- REGISTRY_PASSWORD will be value of "password" from the azure credentials generated.
-- USERNAME will be value of "clientId" from the azure credentials generated.
+- REGISTRY_USERNAME will be value of "clientId" from the azure credentials generated.
+- REGISTRY_PASSWORD will be value of "clientSecret" from the azure credentials generated.
+
 
 These secrets will be added as shown below-
 <p align="center">
