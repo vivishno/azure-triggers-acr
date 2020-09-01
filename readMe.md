@@ -86,35 +86,62 @@ These secrets will be added as shown below-
   <img src="docs/images/pat_secret.png" alt="GitHub Template repository" width="700"/>
 </p>
 
-### 4. Define your workflow parameters
 
-We have precreated a [Workflow PushImage](/.github/workflows/PushImage.yml) that creates an event grid subscription to our Azure Container Registry ,then pushes an image to this registry. 
+### 4. Setup and Define Triggers
+#### Setup
 
-You need to update the workflow files [Workflow PushImage](/.github/workflows/PushImage.yml) and [Workflow deploy_image](/.github/workflows/deploy_image.yml) with the below parameters wherever required-
--ACR name(both worflows)
--Resource group name(both workflows)
--AKS cluster name (only to be updated in [Workflow deploy_image](/.github/workflows/deploy_image.yml))
--tag filter(only to be updated in [Workflow deploy_image](/.github/workflows/deploy_image.yml)
-  This will only allow the images with matching tag to be deployed to kubernetes.
+We have precreated workflow [setup_acr_trigger](/.github/workflows/setup_acr_trigger.yml) that creates an event grid subscription to our Azure Container Registry.
+User needs to set the following environment variables in this workflow-
+- RESOURCE_GROUP
+- CONTAINER_REGISTRY_NAME
+
+After setting environment variables changes can be saved by commit which will trigger this workflow for setting up required resources.
+
+#### Defining triggers
+You need to update the workflow file [deploy_image](/.github/workflows/deploy_image.yml) with values for following environment variables-
+- RESOURCE_GROUP
+- CLUSTER_NAME
+
   
-After updating secrets and workflow parameters changes can be saved by commiting to the workflow.
+### 5. Testing the trigger
 
-### 5. Running the workflows
+Now whenever we push an image to the above configured ACR, it will trigger the workflow file [deploy_image](/.github/workflows/deploy_image.yml). Here are couple of ways you can use to push a new image to ACR. 
 
-There are two workflow files in this repo
-#### PushImage.yml -> triggers on a push to this repository
-  - This workflow is used to create an event grid subscription to azure container registry events using azure_eventgridsubscriber action.
-  - After subscribing to events a docker image  is built and pushed to azure container registry so that image pushed event is triggered in event grid.
-#### Deploy_image.yml -> triggers when an image is pushed to subscribed acr
-  - This workflow is trigerred whenever an image is pushed to acr subscribed by event grid.
-  - The image pushed is deployed to azure kubernetes cluster specified in this workflow
+#### Option 1:
+After setup is done we can use command line to push image to our container registry using following docker login and push command-
+- Use below command to login to your regisry-
+
+    ``` docker login {{container-registry-name}}.azurecr.io ```
+ 
+  User will be promted for username and password to access the docker registry server which can be taken from azure credentials generated in step 3-
+    - USERNAME: 'clientId' part of credentials generated
+    - PASSWORD: 'clientSecret' part of credentials generated
+
+- Before any docker image is pushed to azure container registry it needs to be converted to the registry format.
+  This can be done using following command-
   
-Once you save your changes by commit after  updating secrets and worfkflow parameters, the [Workflow PushImage](/.github/workflows/PushImage.yml) will be triggerred.The details of this run can be seen in actions tab.
+  ``` docker tag {{any-docker-image:tag}} {{container-registry-name}}.azurecr.io/{{repo-name}}:{image-tag} ```
+  
+    - 'container-registry-name' is the name of the azure container registry user wants to push image to.
+    - 'repo-name' can be any name specified by user.This will be the the repository name used to store the image in the registry.
+    - 'image-tag' is the tag name specified by user.This will be the tag(version) of the repo specified.
+    - 'any-docker-image:tag' can be any existing image which user wants to push to registry.
+    
+  As a sample user use image 'nginx:latest'  as 'any-docker-image:tag'.This image can be pulled locally using command
+  
+     ``` docker pull nginx ```
+    
+- Use below command to push image to registry-
+    
+     ``` docker push {{container-registry-name}}.azurecr.io/{{repo-name}}:{image-tag} ```
+  
+     This will trigger workflow [deploy_image](/.github/workflows/deploy_image.yml) which will deploy the pushed image to AKS.
 
-<p align="center">
-  <img src="docs/images/actions_tab.png" alt="GitHub Actions Tab" width="700"/>
-</p>
+#### Option 2:
+A sample workflow [push_sample_image](/.github/workflows/push_sample_image.yml) is available which can be used to push image provided to ACR.
+We can update this workflow trigger it by making a commit to it.
+This trigger will push image to ACR and trigger workflow [deploy_image](/.github/workflows/deploy_image.yml) to deploy the image to AKS.
 
-### 6. Deployment parameters
- The deployment parameters related to deployment to aks can be changed accordingly by updating values in the following file-
- - charts/values.yaml
+
+### 6. Review 
+The above docker push should have auto-triggered workflow [deploy_image](/.github/workflows/deploy_image.yml) which deploys the docker image to an Azure Kubernetes Cluster. You can check the run created by this push under Actions tab. 
