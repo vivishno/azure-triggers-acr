@@ -88,17 +88,18 @@ These secrets will be added as shown below-
 
 
 ### 4. Setup and Define Triggers
-#### Setup
+#### Setup Trigger
 
-We have precreated workflow [setup_acr_trigger](/.github/workflows/setup_acr_trigger.yml) that creates an event grid subscription to our Azure Container Registry.
+We have precreated workflow [setup_acr_trigger](/.github/workflows/setup_acr_trigger.yml) that enables our GitHub Repo to listen to events from this ACR. 
 User needs to set the following environment variables in this workflow-
 - RESOURCE_GROUP
 - CONTAINER_REGISTRY_NAME
+After setting environment variables changes can be saved by commit which will trigger this workflow for required setup.
 
-After setting environment variables changes can be saved by commit which will trigger this workflow for setting up required resources.
+#### Define Trigger
+We have precreated workflow file [deploy_image](/.github/workflows/deploy_image.yml#L3) with the necessary trigger on ACR set. If you add this repository dispatch event `containerregistry-imagepushed` in other workflows, they will also start listening to the image push events in the configured ACR. 
 
-#### Defining triggers
-You need to update the workflow file [deploy_image](/.github/workflows/deploy_image.yml) with values for following environment variables-
+You need to update this workflow file [deploy_image](/.github/workflows/deploy_image.yml) with values for following environment variables-
 - RESOURCE_GROUP
 - CLUSTER_NAME
 
