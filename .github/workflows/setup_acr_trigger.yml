@@ -9,8 +9,8 @@ on:
 #   RESOURCE_GROUP
 #   CONTAINER_REGISTRY_NAME
 env:
- RESOURCE_GROUP: demovivek10       #set this to your resource group name      
- CONTAINER_REGISTRY_NAME: tryacrdemo    #set this to your container registry name
+ RESOURCE_GROUP: tryivek1       #set this to your resource group name      
+ CONTAINER_REGISTRY_NAME: tryacr1    #set this to your container registry name
   
 jobs:
     build-and-deploy:
