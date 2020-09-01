@@ -10,7 +10,7 @@ on:
 #   CONTAINER_REGISTRY_NAME
 env:
  RESOURCE_GROUP: tryvivek1        #set this to your resource group name      
- CONTAINER_REGISTRY_NAME: tryacr1    #set this to your container registry name
+ CONTAINER_REGISTRY_NAME: tryacr2    #set this to your container registry name
   
 jobs:
     build-and-deploy:
