@@ -11,7 +11,7 @@ on:
 env:
  RESOURCE_GROUP: demovivek10       #set this to your resource group name      
  CONTAINER_REGISTRY_NAME: tryacrdemo    #set this to your container registry name
- 
+  
 jobs:
     build-and-deploy:
         runs-on: ubuntu-latest 
