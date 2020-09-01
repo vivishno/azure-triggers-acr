@@ -59,12 +59,7 @@ Please follow [this link](https://help.github.com/en/actions/configuring-and-man
 
 
 #### Credentials required to push/pull to azure container registry
-Following secrets are credentials required to access azure container registry.
-- REGISTRY_USERNAME
-- REGISTRY_PASSWORD
-
-
-These can be set using the azure credentials generated above-
+Following secrets are credentials required to access azure container registry.These can be set using the azure credentials generated above-
 - REGISTRY_USERNAME will be value of "clientId" from the azure credentials generated.
 - REGISTRY_PASSWORD will be value of "clientSecret" from the azure credentials generated.
 
