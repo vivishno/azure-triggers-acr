@@ -15,7 +15,7 @@ The following prerequisites are required to make this repository work:
 
 ### 2. Create repository
 
-To get started with Azure Triggers in GH, simply create a new repo based off this template, by clicking on the green "Use this template" button:
+To get started with Azure Triggers in GitHub, simply create a new repo based off this template, by clicking on the green "Use this template" button:
 
 <p align="center">
   <img src="https://help.github.com/assets/images/help/repository/use-this-template-button.png" alt="GitHub Template repository" width="700"/>
@@ -70,7 +70,7 @@ These secrets will be added as shown below-
 </p>
 
 #### To Allow Azure to trigger a GitHub Workflow
- We also need GH PAT token with `repo` access so that we can trigger a GH workflow when the training is completed on Azure Machine Learning. 
+ We also need GH PAT token with `repo` access so that we can trigger a GH workflow when there is a new image on Azure Container Registry. 
  
  <p align="center">
   <img src="docs/images/pat_scope.PNG" alt="GitHub Template repository" width="700"/>
@@ -92,12 +92,11 @@ User needs to set the following environment variables in this workflow-
 After setting environment variables changes can be saved by commit which will trigger this workflow for required setup.
 
 #### Define Trigger
-We have precreated workflow file [deploy_image](/.github/workflows/deploy_image.yml#L3) with the necessary trigger on ACR set. If you add this repository dispatch event `containerregistry-imagepushed` in other workflows, they will also start listening to the image push events in the configured ACR. 
-
-You need to update this workflow file [deploy_image](/.github/workflows/deploy_image.yml) with values for following environment variables-
+We have precreated workflow file [deploy_image](/.github/workflows/deploy_image.yml#L3) with the necessary trigger on ACR set. You need to update this workflow file [deploy_image](/.github/workflows/deploy_image.yml) with values for following environment variables-
 - RESOURCE_GROUP
 - CLUSTER_NAME
 
+ If you add this repository dispatch event `containerregistry-imagepushed` in other workflows, they will also start listening to the image push events in the configured ACR. 
   
 ### 5. Testing the trigger
 
@@ -109,7 +108,7 @@ We need to provide ACR details in above workflow and commit the workflow file. T
 
 
 #### Option 2:
-After setup is done we can use command line to push image to our container registry using following docker login and push command-
+We can also use command line to push image to our container registry using following docker login and push command-
 - Use below command to login to your regisry-
 
     ``` docker login {{container-registry-name}}.azurecr.io ```
