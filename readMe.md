@@ -108,6 +108,12 @@ You need to update the workflow file [deploy_image](/.github/workflows/deploy_im
 Now whenever we push an image to the above configured ACR, it will trigger the workflow file [deploy_image](/.github/workflows/deploy_image.yml). Here are couple of ways you can use to push a new image to ACR. 
 
 #### Option 1:
+A sample workflow [push_sample_image](/.github/workflows/push_sample_image.yml) is available which can be used to push image provided to ACR.
+We can update this workflow trigger it by making a commit to it.
+This trigger will push image to ACR and trigger workflow [deploy_image](/.github/workflows/deploy_image.yml) to deploy the image to AKS.
+
+
+#### Option 2:
 After setup is done we can use command line to push image to our container registry using following docker login and push command-
 - Use below command to login to your regisry-
 
@@ -137,10 +143,6 @@ After setup is done we can use command line to push image to our container regis
   
      This will trigger workflow [deploy_image](/.github/workflows/deploy_image.yml) which will deploy the pushed image to AKS.
 
-#### Option 2:
-A sample workflow [push_sample_image](/.github/workflows/push_sample_image.yml) is available which can be used to push image provided to ACR.
-We can update this workflow trigger it by making a commit to it.
-This trigger will push image to ACR and trigger workflow [deploy_image](/.github/workflows/deploy_image.yml) to deploy the image to AKS.
 
 
 ### 6. Review 
